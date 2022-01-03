@@ -2,6 +2,8 @@
 
 Converts your BMS levels to a modern file format (osu, qua or json), ready to import & play.
 
+This fork is used for my BMX2OSU converter. See it [here](https://github.com/sxturndev/bmx2osu).
+
 ## How to Use
 
 Output to Quaver: `bmt.exe -i /path/to/input -o /path/to/output`

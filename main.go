@@ -1,31 +1,20 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"github.com/fatih/color"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func welcomeToOss() {
-	fmt.Print("\n")
-	str := `██████╗ ███╗   ███╗████████╗
-██╔══██╗████╗ ████║╚══██╔══╝
-██████╔╝██╔████╔██║   ██║   
-██╔══██╗██║╚██╔╝██║   ██║   
-██████╔╝██║ ╚═╝ ██║   ██║   
-╚═════╝ ╚═╝     ╚═╝   ╚═╝`
-	scanner := bufio.NewScanner(strings.NewReader(str))
-	for scanner.Scan() {
-		color.HiBlue(scanner.Text())
-	}
-	color.HiBlue("Version %s", Version)
-	fmt.Print("\n\n")
+	color.HiBlue("\nbmtranslator by vysiondev")
+	color.HiBlue("Version %s (forked by sxturndev)", Version)
+	color.Yellow("https://github.com/sxturndev/bmtranslator\n\n")
 }
 
 func main() {
