@@ -57,33 +57,6 @@ func main() {
 		return
 	}
 
-	// Check if temp folder is still left over
-	_, err := os.Stat(path.Join(filepath.FromSlash(conf.Output), TempDir))
-	if err != nil {
-		if os.IsNotExist(err) {
-			if !strings.Contains(err.Error(), "The system cannot find the file specified.") {
-				color.HiRed("* Failed to check for existence of the temporary directory. error: %s", err.Error())
-				return
-			} else {
-				if conf.Verbose {
-					color.HiBlack("* Temporary directory does not exist yet.")
-				}
-			}
-		}
-	} else {
-		if conf.Verbose {
-			color.HiBlack("* Temporary directory appears to already exist. Attempting to remove")
-		}
-		err = os.RemoveAll(path.Join(filepath.FromSlash(conf.Output), TempDir))
-		if err != nil {
-			color.HiRed("* Failed to remove temporary directory. Location: %s error: %s", path.Join(filepath.FromSlash(conf.Output), TempDir), err.Error())
-			return
-		}
-		if conf.Verbose {
-			color.HiBlack("* Deleted old temporary directory successfully")
-		}
-	}
-
 	// Scan input directory
 	inputFolders, err := ioutil.ReadDir(filepath.FromSlash(conf.Input))
 	if err != nil {
@@ -96,13 +69,6 @@ func main() {
 
 	if conf.Verbose {
 		color.HiBlack("* Found %d directories to process.", len(inputFolders))
-	}
-
-	// Create temporary directory
-	err = os.Mkdir(path.Join(filepath.FromSlash(conf.Output), TempDir), 0700)
-	if err != nil {
-		color.HiRed("* Could not create a temporary folder inside the output directory. %s", err.Error())
-		return
 	}
 
 	// Store statuses
@@ -119,7 +85,7 @@ func main() {
 			continue
 		}
 		input := filepath.ToSlash(path.Join(filepath.FromSlash(conf.Input), f.Name()))
-		output := filepath.ToSlash(path.Join(filepath.FromSlash(conf.Output), TempDir, f.Name()))
+		output := filepath.ToSlash(path.Join(filepath.FromSlash(conf.Output), f.Name()))
 
 		var bmsChartFiles []string
 		files, err := ioutil.ReadDir(input)
@@ -258,12 +224,4 @@ func main() {
 		color.White("* %s: %d %s and %d %s", s.Name, s.Fail, color.YellowString("not converted"), s.Success, color.HiGreenString("succeeded"))
 	}
 
-	e := os.RemoveAll(path.Join(conf.Output, TempDir))
-	if e != nil {
-		color.HiRed("* Failed to remove temp dir. %s", e.Error())
-	} else {
-		if conf.Verbose {
-			color.HiBlack("* Cleaned up temp dir successfully.")
-		}
-	}
 }
