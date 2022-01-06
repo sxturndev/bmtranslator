@@ -146,11 +146,9 @@ func main() {
 			color.HiBlack("* Found %d charts to process", len(bmsChartFiles))
 		}
 
-		zipExtension := "qp"
 		fileExtension := "qua"
 		switch conf.FileType {
 		case Osu:
-			zipExtension = "osz"
 			fileExtension = "osu"
 		}
 		for diffIndex, bmsFile := range bmsChartFiles {
@@ -205,7 +203,7 @@ func main() {
 		}
 
 		if !conf.JSONOnly {
-			if err := RecursiveMultiPathZip(input, output, path.Join(conf.Output, f.Name()+"."+zipExtension)); err != nil {
+			if err := CopyFiles(input, output); err != nil {
 				panic(err)
 			}
 		}
