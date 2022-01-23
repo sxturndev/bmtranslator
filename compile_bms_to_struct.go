@@ -2,12 +2,13 @@ package main
 
 import (
 	"bufio"
-	"github.com/fatih/color"
 	"os"
 	"path"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 var (
@@ -328,6 +329,18 @@ func (conf *ProgramConfig) CompileBMSToStruct(inputPath string, bmsFileName stri
 		}
 		fileData.TrackLines[int(tInt)] = append(fileData.TrackLines[int(tInt)], thisLineData)
 		lineIndex++
+	}
+
+	// Append missing measures to TrackLines with blank BGM
+	for index := 0; index < len(fileData.TrackLines); index++ {
+		_, exists := fileData.TrackLines[index]
+		if !exists {
+			blankMeasure := Line{
+				Channel: "01",
+				Message: "00",
+			}
+			fileData.TrackLines[index] = append(fileData.TrackLines[index], blankMeasure)
+		}
 	}
 
 	// Subtitle wasn't found and user doesn't want to keep implicit subtitles intact. Try
