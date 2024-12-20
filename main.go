@@ -126,7 +126,7 @@ func main() {
 			continue
 		}
 
-		err = os.Mkdir(output, 0644)
+		err = os.Mkdir(output, 0755)
 		if err != nil {
 			color.HiRed("* Failed to create a folder for %s. Skipping. (%s)", f.Name(), err.Error())
 			continue
